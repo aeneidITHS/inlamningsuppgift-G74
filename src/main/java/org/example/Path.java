@@ -8,4 +8,5 @@ public interface Path<T> extends Iterable<Edge> {
     int getTotalWeight();
     List<Edge<T>> getEdges();
     List<T> getNodes();
+    String toString();
 }
