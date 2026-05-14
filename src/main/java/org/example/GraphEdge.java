@@ -8,7 +8,7 @@ public class GraphEdge <T> implements Edge<T>{
 
 
     public GraphEdge(T destination, String name, int weight){
-        if(weight > 0 ){
+        if(weight < 0 ){
             throw new IllegalArgumentException("weight can not be negative");
         }
         this.destination = destination;
@@ -27,7 +27,7 @@ public class GraphEdge <T> implements Edge<T>{
 
     @Override
     public void setWeight(int weight) {
-        if(weight > 0){
+        if(weight < 0){
             throw new IllegalArgumentException("weight can not be negative");
         }
         this.weight = weight;
