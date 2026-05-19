@@ -1,4 +1,4 @@
-package org.example;
+package org.example.backend;
 
 public class GraphEdge <T> implements Edge<T>{
 

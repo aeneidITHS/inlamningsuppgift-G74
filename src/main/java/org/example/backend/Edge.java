@@ -1,4 +1,4 @@
-package org.example;
+package org.example.backend;
 
 public interface Edge<T>{
     T getDestination();

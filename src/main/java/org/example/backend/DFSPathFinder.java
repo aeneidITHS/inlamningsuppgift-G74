@@ -1,4 +1,4 @@
-package org.example;
+package org.example.backend;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Set;
