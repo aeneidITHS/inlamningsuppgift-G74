@@ -2,6 +2,9 @@ package org.example.frontend;
 
 import org.example.backend.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +12,7 @@ public class TravelPlannerModel {
     private PathFinder<City> bfsPathFinder = new BFSPathFinder<>();
     private PathFinder<City> dfsPathFinder = new DFSPathFinder<>();
     private ListGraph<City> cities;
+    private List<Trip> tripHistory = new ArrayList<>();
     private Graph<City> graph;
     private Path<City> path;
 
@@ -40,6 +44,14 @@ public class TravelPlannerModel {
         if(fastestPath == null){
             return "No path found";
         }
+
+        Trip trip = new Trip(from.getName()
+                ,to.getName()
+                , "BFS"
+                ,convertPathToCityNames(path)
+                , path.getTotalWeight());
+
+        tripHistory.add(trip);
         return fastestPath.toString();
     }
     public String findPathDFS(City from, City to){
@@ -48,7 +60,28 @@ public class TravelPlannerModel {
             return "No path found";
         }
 
+        Trip trip = new Trip(from.getName()
+                ,to.getName()
+                , "DFS"
+                ,convertPathToCityNames(path)
+                , path.getTotalWeight());
+        tripHistory.add(trip);
         return fastestPath.toString();
+    }
+
+    public void loadSavedTrips(File file) throws IOException {
+        TravelFileManager travelFileManager = new TravelFileManager();
+        List<Trip> loadedTrips =  travelFileManager.loadTrips(file);
+        tripHistory.addAll(loadedTrips);
+    }
+
+    private List<String> convertPathToCityNames(Path<City> path){
+        List<String> cityNames = new ArrayList<>();
+
+        for(City city : path.getNodes()){
+            cityNames.add(city.getName());
+        }
+        return cityNames;
     }
 
 
