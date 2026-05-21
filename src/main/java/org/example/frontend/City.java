@@ -29,4 +29,9 @@ public class City {
     public int getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return
+    }
 }

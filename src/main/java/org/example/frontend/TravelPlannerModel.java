@@ -1,14 +1,19 @@
 package org.example.frontend;
 
-import java.util.ArrayList;
+import org.example.backend.*;
+
 import java.util.List;
+import java.util.Set;
 
 public class TravelPlannerModel {
-
-    private List<City> cities;
+    private PathFinder<City> bfsPathFinder = new BFSPathFinder<>();
+    private PathFinder<City> dfsPathFinder = new DFSPathFinder<>();
+    private ListGraph<City> cities;
+    private Graph<City> graph;
+    private Path<City> path;
 
     public TravelPlannerModel(){
-        cities = new ArrayList<>();
+        cities = new ListGraph<>();
         createBasicCityList();
     }
 
@@ -26,19 +31,26 @@ public class TravelPlannerModel {
         cities.add(city);
     }
 
-    public List<City> getCities() {
-        return cities;
+    public Set<City> getCities() {
+        return cities.getNodes();
     }
 
-    public String findFastestPath(){
-        return "path";
+    public String findPathBFS(City from, City to){
+        Path<City> fastestPath = bfsPathFinder.findPath(cities,from,to);
+        if(fastestPath == null){
+            return "No path found";
+        }
+        return fastestPath.toString();
     }
-    public String findFastestPathBFS(){
-        return "path";
+    public String findPathDFS(City from, City to){
+        Path<City> fastestPath = dfsPathFinder.findPath(cities,from,to);
+        if(fastestPath == null){
+            return "No path found";
+        }
+
+        return fastestPath.toString();
     }
 
-    public String findFastestPathDFS(){
-        return "path";
-    }
+
 
 }

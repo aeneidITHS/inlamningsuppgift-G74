@@ -3,12 +3,10 @@ package org.example.backend;
 import java.util.*;
 
 public class ListGraph<T> implements Graph<T> {
-    private LinkedList linkedList = new LinkedList<>();
     private final Map<T, List<Edge<T>>> adjacencyList = new HashMap<>();
 
 
     public ListGraph(){
-        this.linkedList = new LinkedList<>();
     }
 
 
