@@ -22,9 +22,10 @@ public class ListGraph<T> implements Graph<T> {
         }
         for(T otherNode : adjacencyList.keySet()){
             if(!otherNode.equals(node)){
-                adjacencyList.get(node).removeIf(edge -> edge.getDestination().equals(node));
+                adjacencyList.get(otherNode).removeIf(edge -> edge.getDestination().equals(node));
             }
         }
+        adjacencyList.remove(node);
     }
 
     @Override
