@@ -2,10 +2,10 @@ package org.example.frontend;
 
 
 public class City {
-   private String name;
-   private int id;
-   private int x;
-   private int y;
+   private final String name;
+   private final int id;
+   private final int x;
+   private final int y;
 
 
 
@@ -49,7 +49,9 @@ public class City {
 
    @Override
    public int hashCode() {
-       return name.hashCode;
+       return name.hashCode();
+
+
    }
 
 
