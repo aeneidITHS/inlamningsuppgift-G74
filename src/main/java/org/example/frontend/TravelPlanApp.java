@@ -11,7 +11,7 @@ public class TravelPlanApp extends  Application{
     @Override
     public void start(Stage stage) throws Exception {
         TravelPlannerModel model = new TravelPlannerModel();
-        TravelPlannerView view = new TravelPlannerView();
+        TravelPlannerView view = new TravelPlannerView(model,stage);
         view.getChildren();
         Scene scene = new Scene(view, 900, 900);
 
