@@ -13,7 +13,7 @@ public class TravelPlanApp extends  Application{
         TravelPlannerModel model = new TravelPlannerModel();
         TravelPlannerView view = new TravelPlannerView(model,stage);
         view.getChildren();
-        Scene scene = new Scene(view, 900, 900);
+        Scene scene = new Scene(view, 500, 500);
 
         stage.setTitle("TravelPlanner");
         stage.setScene(scene);
