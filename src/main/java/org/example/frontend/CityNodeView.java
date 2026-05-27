@@ -41,7 +41,12 @@ public class CityNodeView extends Group {
 
        setOnMousePressed(new StartDragHandler());
        setOnMouseDragged(new DragHandler());
+      circle.setOnMouseClicked(new ClickHandler());
    }
+
+   public boolean isSelected() {
+        return selected;
+    }
 
 
    class StartDragHandler implements EventHandler<MouseEvent> {
@@ -59,6 +64,19 @@ public class CityNodeView extends Group {
            relocate(newX, newY);
        }
    }
+
+   class ClickHandler implements EventHandler<MouseEvent> {
+        public void handle(MouseEvent event) {
+            CityNodeView c = (CityNodeView) event.getSource();
+            if (!selected) {
+                selected = true;
+                c.circle.setFill(Color.ORANGE);
+            } else {
+                selected = false;
+                c.circle.setFill(Color.ALICEBLUE);
+            }
+        }
+    }
 
 
    public Circle getCircle() { return circle; }
