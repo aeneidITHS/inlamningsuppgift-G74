@@ -155,4 +155,35 @@ public class TravelPlannerView extends BorderPane {
            }
        }
    }
+
+   class ConnectCitiesHandler implements EventHandler<ActionEvent> {
+       public void handle(ActionEvent event) {
+
+           List<CityNodeView> selected = new ArrayList<>();
+           for (javafx.scene.Node node : mapPane.getChildren()) {
+               if (node instanceof CityNodeView) {
+                   CityNodeView cityNode = (CityNodeView) node;
+                   if (cityNode.isSelected()) {
+                       selected.add(cityNode);
+                   }
+               }
+           }
+
+           if (selected.size() !=2){
+               Alert alert = new Alert(Alert.AlertType.ERROR, "ERROR: Select two cities");
+               alert.showAndWait();
+               return;
+           }
+
+           City from = selected.get(0).getCity();
+           City to = selected.get(1).getCity();
+
+           model.connectCities(from, to, 1, "Route");
+           changed = true;
+           statusLabel.setText("Connected ") +
+                   from.getName() + " + " + to.getName());
+       }
+   }
+
+
 }
