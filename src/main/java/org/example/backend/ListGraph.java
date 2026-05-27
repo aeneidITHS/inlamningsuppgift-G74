@@ -77,7 +77,7 @@ public class ListGraph<T> implements Graph<T> {
         if(!hasNode(node1) || !hasNode(node2)){
             System.out.println("The nodes do not exist");
         }
-        if(weight > 0 ){
+        if(weight < 0 ){
             System.out.println("Weight can not be negative");
         }
 
@@ -112,7 +112,7 @@ public class ListGraph<T> implements Graph<T> {
             System.out.println("Both nodes must exist");
         }
         for(Edge<T> edge : adjacencyList.get(node1)){
-            if(edge.getDestination().equals(adjacencyList.get(node2))){
+            if(edge.getDestination().equals((node2))){
                 return edge;
             }
         }

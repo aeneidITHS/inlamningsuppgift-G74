@@ -8,6 +8,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+
+
 public class CityNodeView extends Group {
 
    private City city;
@@ -15,11 +17,13 @@ public class CityNodeView extends Group {
    private double startX, startY;
 
 
+
    public CityNodeView(City city) {
        this.city = city;
 
 
-       relocate(city.getX(), city.getY());
+       relocate(city.x(), city.y());
+
 
 
        circle = new Circle(0, 0, 12);
@@ -27,7 +31,7 @@ public class CityNodeView extends Group {
        circle.setStroke(Color.BLACK);
 
 
-       Label label = new Label(city.getName());
+       Label label = new Label(city.name());
        label.setLayoutX(-10);
        label.setLayoutY(15);
 

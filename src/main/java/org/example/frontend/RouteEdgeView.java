@@ -10,7 +10,7 @@ public class RouteEdgeView extends Group{
             Edge<City> edge = path.getEdges().get(i);
             City from = (i == 0) ? path.getStart() : path.getEdges().get(i - 1).getDestination();
             City to = edge.getDestination();
-            Line line = new Line(from.getX(), from.getY(), to.getX(), to.getY());
+            Line line = new Line(from.x(), from.y(), to.x(), to.y());
             getChildren().add(line);
         }
     }
