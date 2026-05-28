@@ -86,7 +86,6 @@ public class TravelPlannerView extends BorderPane {
         Button findPathButton = new Button("Find Path");
         Button connectCitiesButton = new Button("Connect Cities");
 
-        addCityButton.setOnAction(new AddCityHandler());
         findPathButton.setOnAction(new FindPathHandler());
         connectCitiesButton.setOnAction(new ConnectCitiesHandler());
 
