@@ -225,8 +225,7 @@ public class TravelPlannerView extends BorderPane {
 
             model.connectCities(from, to, 1, "Route");
             changed = true;
-            statusLabel.setText("Connected ") +
-                    from.getName() + " + " + to.getName());
+            statusLabel.setText("Connected " + from.name() + " + " + to.name());
         }
     }
 
