@@ -15,6 +15,7 @@ public class CityNodeView extends Group {
    private City city;
    private Circle circle;
    private double startX, startY;
+   private boolean selected = false;
 
 
 
