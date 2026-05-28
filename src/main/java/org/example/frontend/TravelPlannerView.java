@@ -126,8 +126,7 @@ public class TravelPlannerView extends BorderPane {
     class NewHandler implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
             if (changed) {
-                Alert alert = new Alert(
-                        Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText(
                         "Unsaved changes, continue anyway?");
                 Optional<ButtonType> res = alert.showAndWait();
@@ -245,7 +244,7 @@ public class TravelPlannerView extends BorderPane {
             }
 
             if (selected.size() != 2) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Please select two cities!");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Select two cities");
                 alert.showAndWait();
                 return;
             }
