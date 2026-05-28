@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javafx.geometry.Pos;
+import org.example.backend.Path;
 
 
 public class TravelPlannerView extends BorderPane {
@@ -270,4 +271,3 @@ public class TravelPlannerView extends BorderPane {
 
 
 }
-
