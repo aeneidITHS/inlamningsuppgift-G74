@@ -11,11 +11,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javafx.geometry.Pos
+
+import javafx.geometry.Pos;
 
 
 public class TravelPlannerView extends BorderPane {
@@ -87,14 +89,9 @@ public class TravelPlannerView extends BorderPane {
         findPathButton.setOnAction(new FindPathHandler());
         connectCitiesButton.setOnAction(new ConnectCitiesHandler());
 
-        controls.getChildren().addAll(
-                addCityButton,
-                findPathButton,
-                connectCitiesButton
-        );
+        controls.getChildren().addAll(addCityButton, findPathButton, connectCitiesButton);
 
         vbox.getChildren().add(controls);
-
 
 
         display.setWrapText(true);
@@ -172,15 +169,14 @@ public class TravelPlannerView extends BorderPane {
 
     class ExitItemHandler implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
-            stage.fireEvent(new WindowEvent(
-                    stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+            stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
         }
     }
 
     class BFSHandler implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
-            useBFS = true;
-            statusLabel.setText(" BFS ");
+         useBFS = true;
+         statusLabel.setText(" BFS ");
         }
     }
 
@@ -192,16 +188,11 @@ public class TravelPlannerView extends BorderPane {
     }
 
 
-
-
-
     class ExitHandler implements EventHandler<WindowEvent> {
         public void handle(WindowEvent event) {
             if (changed) {
-                Alert alert = new Alert(
-                        Alert.AlertType.CONFIRMATION);
-                alert.setContentText(
-                        "Unsaved changes, exit anyway?");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Unsaved changes, exit anyway?");
                 Optional<ButtonType> res = alert.showAndWait();
                 if (res.isPresent() &&
                         res.get().equals(ButtonType.CANCEL)) {
@@ -224,7 +215,7 @@ public class TravelPlannerView extends BorderPane {
                 }
             }
 
-            if (selected.size() !=2){
+            if (selected.size() != 2) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "ERROR: Select two cities");
                 alert.showAndWait();
                 return;
@@ -254,8 +245,7 @@ public class TravelPlannerView extends BorderPane {
             }
 
             if (selected.size() != 2) {
-                Alert alert = new Alert(Alert.AlertType.ERROR,
-                        "Please select exactly two cities!");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please select two cities!");
                 alert.showAndWait();
                 return;
             }
@@ -263,16 +253,22 @@ public class TravelPlannerView extends BorderPane {
             City from = selected.get(0).getCity();
             City to = selected.get(1).getCity();
 
-            String result;
+            Path<City> path;
             if (useBFS) {
-                result = model.findPathBFS(from, to);
+                path = model.findPathBFS(from, to);
             } else {
-                result = model.findPathDFS(from, to);
+                path = model.findPathDFS(from, to);
             }
-            display.setText(result);
+
+            if (path == null) {
+                display.setText("No path found");
+            } else {
+                display.setText(path.toString());
+            }
+
+
         }
     }
-
 
 
 }
