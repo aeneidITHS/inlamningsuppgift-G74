@@ -97,8 +97,6 @@ public class TravelPlannerView extends BorderPane {
 
         display.setWrapText(true);
         display.setEditable(false);
-        display.setVisible(false);
-
 
         mapPane = new Pane();
         statusLabel = new Label("Travel Planner");
