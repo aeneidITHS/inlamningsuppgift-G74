@@ -77,11 +77,11 @@ public class TravelFileManager {
     public void saveGraph(File fileName){
         try(FileWriter fileWriter = new FileWriter(fileName, false)){
             if(model.getImagePath() != null){
-                fileWriter.write("IMAGE:" + model.getImagePath()+ "\n");
+                fileWriter.write("IMAGE;" + model.getImagePath()+ "\n");
             }
 
             for(City city : model.getCities()){
-                fileWriter.write("CITY:" +
+                fileWriter.write("CITY;" +
                         city.name() + ";" +
                         city.id() + ";" +
                         city.x() + ";" +
@@ -105,31 +105,48 @@ public class TravelFileManager {
         model.removeAllCities();
 
         Set<String> connections = new HashSet<>();
+        System.out.println("Before Scanner loop");
 
         try(Scanner scanner = new Scanner(fileName)){
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
+                System.out.println("Inside scanner loop");
+                System.out.println(line);
                 if(line.isBlank()){
                     continue;
                 }
                 String[] parts = line.split(";");
 
                 switch (parts[0]) {
-                    case "IMAGE:" -> model.setImagePath(parts[1]);
-                    case "CITY:" -> {
+                    case "IMAGE" -> {
+                        model.setImagePath(parts[1]);
+                        System.out.println("Image");
+                    }
+                    case "CITY" -> {
                         String name = parts[1];
                         int id = Integer.parseInt(parts[2]);
                         int x = Integer.parseInt(parts[3]);
                         int y = Integer.parseInt(parts[4]);
+                        System.out.println(name);
+                        System.out.println(id);
+                        System.out.println(x);
+                        System.out.println(y);
                         model.addCities(new City(name, id, x, y));
                     }
-                    case "EDGE:" -> connections.add(line);
+                    case "EDGE" -> {
+                        connections.add(line);
+                        System.out.println("edge");
+                    }
                 }
             }
         }
         for(String connection: connections){
-            String[] parts = connection.split("; " + "-");
-
+            String[] parts = connection.split(";");
+            System.out.println(Arrays.toString(parts));
+            System.out.println(parts[0]);
+            System.out.println(parts[1]);
+            System.out.println(parts[2]);
+            System.out.println(parts[3]);
             City from = model.getCityByName(parts[1]);
             City to = model.getCityByName(parts[2]);
             String name = parts[3];

@@ -16,6 +16,7 @@ public class TravelPlannerModel {
     private final ListGraph<City> cities;
     private final List<Trip> tripHistory = new ArrayList<>();
     private final TravelFileManager travelFileManager;
+    private List<Path> paths = new ArrayList<>();
     private String imagePath;
     public TravelPlannerModel(){
         cities = new ListGraph<>();
@@ -144,11 +145,25 @@ public class TravelPlannerModel {
                             to.name()  + ";" +
                             to.name() + "-" +
                             from.name() + ";" +
+                            cities.getEdgeBetween(from,to).getName() + ";" +
                             edge.getWeight());
                 }
             }
         }
         return connectionLines;
+    }
+
+    public ArrayList<double[]> getPathCoordinates(Path<City> path){
+        ArrayList<double[]> coordinates = new ArrayList<>();
+
+        for(int i = 0; i< path.getEdges().size();i++){
+            Edge<City> edge = path.getEdges().get(i);
+            City from =(i==0)? path.getStart(): path.getEdges().get(i-1).getDestination();
+            City to = edge.getDestination();
+
+            coordinates.add(new double[]{from.x(),from.y(), to.x(), to.y()});
+        }
+        return coordinates;
     }
     public Path<City> findPath(City from, City to, String algorithm) {
         PathFinder<City> pathFinder;
@@ -203,6 +218,9 @@ public class TravelPlannerModel {
 
     public void loadGraph(File fileName) throws FileNotFoundException {
         travelFileManager.loadGraph(fileName);
+        System.out.println("Hej3");
+        System.out.println(getCities().toString());
+
     }
 
     public boolean loadSavedTrips(File file) throws IOException {

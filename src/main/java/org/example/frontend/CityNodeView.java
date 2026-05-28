@@ -42,7 +42,7 @@ public class CityNodeView extends Group {
 
        setOnMousePressed(new StartDragHandler());
        setOnMouseDragged(new DragHandler());
-      circle.setOnMouseClicked(new ClickHandler());
+       setOnMouseClicked(new ClickHandler());
    }
 
    public boolean isSelected() {

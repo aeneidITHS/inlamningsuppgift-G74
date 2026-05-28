@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -96,6 +97,7 @@ public class TravelPlannerView extends BorderPane {
 
         display.setWrapText(true);
         display.setEditable(false);
+        display.setVisible(false);
 
 
         mapPane = new Pane();
@@ -150,6 +152,19 @@ public class TravelPlannerView extends BorderPane {
             if (file != null) {
                 statusLabel.setText("Opened: " + file.getName());
                 changed = false;
+                try {
+                    model.loadGraph(file);
+                    System.out.println(model.getCities().toString());
+                    System.out.println("Hej1");
+                    for(City city : model.getCities()){
+                        System.out.println("HEj2");
+                        System.out.println(city.toString());
+                        addCityToMap(city);
+                    }
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
         }
     }
@@ -161,6 +176,7 @@ public class TravelPlannerView extends BorderPane {
             if (file != null) {
                 statusLabel.setText("Saved: " + file.getName());
                 changed = false;
+                model.saveGraph(file);
             }
         }
     }
@@ -253,7 +269,7 @@ public class TravelPlannerView extends BorderPane {
 
             Path<City> path;
             if (useBFS) {
-                path = model.findPathBFS(from, to);
+                path = model.findPath(from, to,"BFS");
             } else {
                 path = model.findPathDFS(from, to);
             }
