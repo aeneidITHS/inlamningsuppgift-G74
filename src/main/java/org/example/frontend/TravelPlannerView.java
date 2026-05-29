@@ -31,7 +31,6 @@ public class TravelPlannerView extends BorderPane {
     private TextArea display = new TextArea();
     private FileChooser fileChooser = new FileChooser();
     private boolean changed = false;
-    private boolean useBFS = true;
     private Stage stage;
 
 
@@ -188,14 +187,14 @@ public class TravelPlannerView extends BorderPane {
 
     class BFSHandler implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
-         useBFS = true;
-         statusLabel.setText(" BFS ");
+            model.useBFS();
+            statusLabel.setText(" BFS ");
         }
     }
 
     class DFSHandler implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
-            useBFS = false;
+            model.useDFS();
             statusLabel.setText(" DFS ");
         }
     }
@@ -265,17 +264,14 @@ public class TravelPlannerView extends BorderPane {
             City from = selected.get(0).getCity();
             City to = selected.get(1).getCity();
 
-            Path<City> path;
-            if (useBFS) {
-                path = model.findPath(from, to,"BFS");
-            } else {
-                path = model.findPathDFS(from, to);
-            }
-
+            Path<City> path = model.findPath(from, to);
             if (path == null) {
-                display.setText("No path found");
+                display.setText("No path found using " + model.getCurrentAlgorithmName());
             } else {
-                display.setText(path.toString());
+                display.setText(
+                        "Algorithm: " + model.getCurrentAlgorithmName() + "\n" +
+                                path.toString()
+                );
             }
 
 

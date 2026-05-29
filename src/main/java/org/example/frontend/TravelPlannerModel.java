@@ -11,17 +11,19 @@ import java.util.List;
 import java.util.Set;
 
 public class TravelPlannerModel {
-    private final PathFinder<City> bfsPathFinder = new BFSPathFinder<>();
-    private final PathFinder<City> dfsPathFinder = new DFSPathFinder<>();
     private final ListGraph<City> cities;
     private final List<Trip> tripHistory = new ArrayList<>();
     private final TravelFileManager travelFileManager;
-    private List<Path> paths = new ArrayList<>();
+    private PathFinder<City> pathFinder = new BFSPathFinder<>();
+    private String algorithmName = "BFS";
     private String imagePath;
     public TravelPlannerModel(){
         cities = new ListGraph<>();
         createBasicCityList();
         this.travelFileManager = new TravelFileManager(this);
+
+        pathFinder = new BFSPathFinder<>();
+        algorithmName = "BFS";
 
     }
 
@@ -66,6 +68,21 @@ public class TravelPlannerModel {
     public void setImagePath(String imagePath){
         this.imagePath = imagePath;
     }
+
+    public void useBFS() {
+        pathFinder = new BFSPathFinder<>();
+        algorithmName = "BFS";
+    }
+
+    public void useDFS() {
+        pathFinder = new DFSPathFinder<>();
+        algorithmName = "DFS";
+    }
+
+    public String getCurrentAlgorithmName() {
+        return algorithmName;
+    }
+
     public String loadImageRefence(File file) throws IOException {
         return travelFileManager.loadImageReference(file);
     }
@@ -136,17 +153,17 @@ public class TravelPlannerModel {
                 City to = edge.getDestination();
 
 
-                String edgeKey1 = "EDGE;" +  from.name() + "-" + to.name() + ";";
-                String edgeKey2 = "EDGE;" + to.name() + "-" + from.name() + ";";
+                String edgeKey1 = "EDGE;" +  from.name() + ";" + to.name() + ";";
+                String edgeKey2 = "EDGE;" + to.name() + ";" + from.name() + ";";
 
                 if (!connectionLines.contains(edgeKey1) && !connectionLines.contains(edgeKey2)) {
                     connectionLines.add("EDGE;" +
                             from.name() + "-" +
                             to.name()  + ";" +
-                            to.name() + "-" +
+                            to.name() + ";" +
                             from.name() + ";" +
                             cities.getEdgeBetween(from,to).getName() + ";" +
-                            edge.getWeight());
+                            edge.getWeight()+ "\n");
                 }
             }
         }
@@ -165,51 +182,30 @@ public class TravelPlannerModel {
         }
         return coordinates;
     }
-    public Path<City> findPath(City from, City to, String algorithm) {
-        PathFinder<City> pathFinder;
 
-        if (algorithm.equals("BFS")) {
-            return findPathBFS(from,to);
-        }
-        else if(algorithm.equals("DFS")){
-            return findPathDFS(from,to);
-        }
-        else{
-            throw new IllegalArgumentException("Unknown algorithm" + algorithm);
-        }
-
+    public void setPathFinder(PathFinder<City> pathFinder, String algorithmName) {
+        this.pathFinder = pathFinder;
+        this.algorithmName = algorithmName;
     }
 
-    public Path<City> findPathBFS(City from, City to){
-        Path<City> fastestPath = bfsPathFinder.findPath(cities,from,to);
-        if(fastestPath == null){
+    public Path<City> findPath(City from, City to) {
+        Path<City> path = pathFinder.findPath(cities, from, to);
+
+        if (path == null) {
             return null;
         }
 
         Trip trip = new Trip(
-                from.name()
-                ,to.name()
-                , "BFS"
-                ,convertPathToCityNames(fastestPath)
-                , fastestPath.getTotalWeight());
+                from.name(),
+                to.name(),
+                algorithmName,
+                convertPathToCityNames(path),
+                path.getTotalWeight()
+        );
 
         tripHistory.add(trip);
-        return fastestPath;
-    }
-    public Path<City> findPathDFS(City from, City to){
-        Path<City> fastestPath = dfsPathFinder.findPath(cities,from,to);
-        if(fastestPath == null){
-            return null;
-        }
 
-        Trip trip = new Trip(
-                from.name()
-                ,to.name()
-                , "DFS"
-                ,convertPathToCityNames(fastestPath)
-                , fastestPath.getTotalWeight());
-        tripHistory.add(trip);
-        return fastestPath;
+        return path;
     }
 
     public void saveGraph(File fileName){
@@ -222,27 +218,6 @@ public class TravelPlannerModel {
         System.out.println(getCities().toString());
 
     }
-
-    public boolean loadSavedTrips(File file) throws IOException {
-        List<Trip> loadedTrips =  travelFileManager.loadTrips(file);
-        return tripHistory.addAll(loadedTrips);
-
-    }
-   /* public boolean saveTrip(String filename,Trip trip) throws IOException {
-        File file = new File(filename);
-        for(Trip trips: tripHistory){
-            if(trips.equals(trip)){
-                travelFileManager.saveTrip(trip,file);
-                return true;
-            }
-        }
-        return false;
-    }
-    public void saveTrips(File file) throws IOException {
-       travelFileManager.saveTrips(tripHistory,file);
-    }*/
-
-
 
     private List<String> convertPathToCityNames(Path<City> path){
         List<String> cityNames = new ArrayList<>();

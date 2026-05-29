@@ -38,48 +38,11 @@ public class TravelFileManager {
            throw new IOException("The image reference does not exist");
        }
 
-
-   /* public void saveTrip(Trip trip, File fileName) throws IOException {
-        FileWriter writer = new FileWriter(fileName, true);
-        writer.write(trip.toFileString() + "\n");
-        writer.close();
-
-    }*/
-    public List<Trip> loadTrips(File file) throws IOException {
-        List<Trip> trips = new ArrayList<>();
-        Scanner scanner = new Scanner(file);
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (!line.isBlank()) {
-                Trip trip = loadTripFromLine(line);
-                trips.add(trip);
-            }
-        }
-        scanner.close();
-        return trips;
-    }
-
-    private Trip loadTripFromLine(String line) throws IOException {
-        String[] parts = line.split(";");
-
-        String algorithm = parts[0];
-        String from = parts[1];
-        String to = parts[2];
-        List<String> path = Arrays.asList(parts[3].split(","));
-        int totalWeight = Integer.parseInt(parts[4]);
-        LocalDateTime createdAt = LocalDateTime.parse(parts[5]);
-
-        return new Trip(from,to,algorithm,path,totalWeight,createdAt);
-
-
-    }
-
     public void saveGraph(File fileName){
         try(FileWriter fileWriter = new FileWriter(fileName, false)){
             if(model.getImagePath() != null){
                 fileWriter.write("IMAGE;" + model.getImagePath()+ "\n");
             }
-
             for(City city : model.getCities()){
                 fileWriter.write("CITY;" +
                         city.name() + ";" +
@@ -88,17 +51,12 @@ public class TravelFileManager {
                         city.y() + "\n"
                 );
             }
-
             for(String connectionLine : model.getConnections()){
                 fileWriter.write(connectionLine);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
-
     }
 
     public void loadGraph(File fileName) throws FileNotFoundException {
