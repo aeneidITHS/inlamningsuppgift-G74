@@ -183,18 +183,12 @@ public class TravelPlannerModel {
         return coordinates;
     }
 
-    public void setPathFinder(PathFinder<City> pathFinder, String algorithmName) {
-        this.pathFinder = pathFinder;
-        this.algorithmName = algorithmName;
-    }
 
     public Path<City> findPath(City from, City to) {
         Path<City> path = pathFinder.findPath(cities, from, to);
-
         if (path == null) {
             return null;
         }
-
         Trip trip = new Trip(
                 from.name(),
                 to.name(),
@@ -202,9 +196,7 @@ public class TravelPlannerModel {
                 convertPathToCityNames(path),
                 path.getTotalWeight()
         );
-
         tripHistory.add(trip);
-
         return path;
     }
 
