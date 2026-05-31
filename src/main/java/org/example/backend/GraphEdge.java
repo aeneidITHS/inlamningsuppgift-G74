@@ -39,6 +39,6 @@ public class GraphEdge <T> implements Edge<T>{
     }
     @Override
     public String toString() {
-        return "to " + destination + "by " + name;
+        return "to " + destination + " by " + name;
 }
 }
