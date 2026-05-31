@@ -41,3 +41,4 @@ public class GraphEdge <T> implements Edge<T>{
     public String toString() {
         return "to " + destination + "by " + name;
 }
+}
