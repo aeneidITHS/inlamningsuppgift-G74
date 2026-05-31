@@ -58,7 +58,7 @@ public class GraphPath <T> implements Path<T> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Start: ").append(start);
+        sb.append("Start: ").append(start).append("\n");
         for(Edge<T> edge: edges)  {
             sb.append(edge).append("\n");
         }
