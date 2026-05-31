@@ -37,4 +37,7 @@ public class GraphEdge <T> implements Edge<T>{
     public String getName() {
         return name;
     }
+    @Override
+    public String toString() {
+        return "to " + destination + "by " + name;
 }
