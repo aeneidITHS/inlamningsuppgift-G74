@@ -206,9 +206,6 @@ public class TravelPlannerModel {
 
     public void loadGraph(File fileName) throws FileNotFoundException {
         travelFileManager.loadGraph(fileName);
-        System.out.println("Hej3");
-        System.out.println(getCities().toString());
-
     }
 
     private List<String> convertPathToCityNames(Path<City> path){
