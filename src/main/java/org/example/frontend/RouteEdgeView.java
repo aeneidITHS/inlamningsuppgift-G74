@@ -13,4 +13,10 @@ public class RouteEdgeView extends Group{
             getChildren().add(line);
         }
     }
+
+    public void RemoveLine(int removeLine) {
+        if (removeLine >= 0 && removeLine < getChildren().size()) {
+            getChildren().remove(removeLine);
+        }
+    }
 }
